@@ -1,6 +1,7 @@
-import 'package:app/src/views/login.dart';
+import 'package:app/src/infra/views/home/home_page.dart';
+import 'package:app/src/infra/views/login.dart';
 import 'package:flutter/material.dart';
-import 'infra/utils/theme/app_theme.dart';
+import 'utils/theme/app_theme.dart';
 
 class App extends StatelessWidget {
   const App({super.key});
@@ -11,7 +12,11 @@ class App extends StatelessWidget {
       title: 'Açai',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.theme,
-      home: const LoginApp(),
+      initialRoute: '/',
+      routes: {
+        '/' :(context) => const HomeApp(),
+        '/login' :(context) => const LoginApp(),
+      },
     );
   }
 }
