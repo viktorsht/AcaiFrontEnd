@@ -1,3 +1,6 @@
+import 'package:app/src/infra/controllers/controller_recipiente.dart';
+import 'package:app/src/infra/models/models_recipientes.dart';
+import 'package:app/src/infra/repositorys/repositorio_recipiente.dart';
 import 'package:app/src/utils/color/app_colors.dart';
 import 'package:flutter/material.dart';
 
@@ -9,6 +12,26 @@ class HomeApp extends StatefulWidget {
 }
 
 class _HomeAppState extends State<HomeApp> {
+
+  List<Recipiente> recipientes = [];
+  RepositorioRecipiente recipiente = RepositorioRecipiente();
+  @override
+  void initState() {
+    super.initState();
+    loadRecipiente();
+  }
+
+  Future<void> loadRecipiente() async {
+    // faça a chamada assíncrona aqui
+    List<Recipiente> listRecipiente = [];
+    RecipienteAppController recipiente = RecipienteAppController();
+    listRecipiente = await recipiente.getRecipienteApp();
+    setState(() {
+      recipientes = listRecipiente;
+    });
+    print(recipientes.toList());
+  }
+
   @override
   Widget build(BuildContext context) {
 
@@ -19,41 +42,45 @@ class _HomeAppState extends State<HomeApp> {
     return Scaffold(
       backgroundColor: AppColors.primaryColorApp,
       appBar: AppBar(
-        backgroundColor: AppColors.primaryColorApp,
-        elevation: 0.0,
-        title: const Text('Cardápio', 
+        backgroundColor: AppColors.secundaryColorApp,
+        elevation: 1.0,
+        centerTitle: true,
+        title: const Text('Açaiteria', 
           style: TextStyle(
-            color: AppColors.blackColorApp,
-            fontWeight: FontWeight.normal,
-            fontSize: 35,
+            color: AppColors.primaryColorApp,
+            fontWeight: FontWeight.w500,
+            fontSize: 30,
             ),
           ),
         actions: [
-           IconButton(onPressed: (){
-           // Navigator.of(context).push(MaterialPageRoute(builder: (context) => const ProfileScreen()));
-           
-          },
-          icon:  const Icon(Icons.person, color: Colors.black, size: 35,),
+           IconButton(
+            icon: const Icon(Icons.person,),
+            onPressed: () {},
           ),
         ],
       ),
-      extendBody: true,
-      body: Padding(
-        padding: EdgeInsets.only(top: screenHeight * .05, left: screenWight * .04, right: screenWight * .04),
-        child: Stack(
-          //alignment: Alignment.topLeft,
-          children:[
-            const Text("Escolha o recipiente", 
-            style: TextStyle(
-              fontWeight: FontWeight.bold, 
-              fontSize: 18
+      body: SingleChildScrollView(
+        child: Column(
+          //crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            const SizedBox(height: 16.0),
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16.0),
+              child: Text(
+                'Cardápio',
+                style: TextStyle(fontSize: 30.0, fontWeight: FontWeight.bold),
               ),
             ),
-            PageView(
-              children: [
-                Container(color: Colors.amber,),
-                Container(color: Colors.amber,),
-            ],),
+            const SizedBox(height: 16.0),
+            Container(
+              child: ListView.builder(
+                //scrollDirection: Axis.horizontal, 
+                itemCount: recipientes.length,
+                itemBuilder: (BuildContext context, int index){ 
+                  return ListTile(title: Text(recipientes[0].nome));
+                },
+              ),
+            ),
           ],
         ),
       ),
