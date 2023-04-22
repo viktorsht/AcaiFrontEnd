@@ -2,8 +2,8 @@ import 'package:app/src/provider/format_phone.dart';
 import 'package:app/src/utils/color/app_colors.dart';
 import 'package:flutter/material.dart';
 
-import '../../utils/button/app_buttons.dart';
-import '../controllers/controller_user.dart';
+import '../../../utils/button/app_buttons.dart';
+import '../../controllers/controller_user.dart';
 
 class LoginApp extends StatefulWidget {
   const LoginApp({super.key});

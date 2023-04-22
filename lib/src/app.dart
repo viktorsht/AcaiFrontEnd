@@ -1,7 +1,6 @@
 import 'package:app/src/infra/views/home/home_page.dart';
-import 'package:app/src/infra/views/login.dart';
+import 'package:app/src/infra/views/login/login.dart';
 import 'package:flutter/material.dart';
-import 'infra/views/home/home.dart';
 import 'utils/theme/app_theme.dart';
 
 class App extends StatelessWidget {
@@ -15,7 +14,7 @@ class App extends StatelessWidget {
       theme: AppTheme.theme,
       initialRoute: '/',
       routes: {
-        '/' :(context) => HomeApp(),
+        '/' :(context) => const HomeApp(),
         '/login' :(context) => const LoginApp(),
       },
     );
