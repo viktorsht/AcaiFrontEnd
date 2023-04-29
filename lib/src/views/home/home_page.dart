@@ -21,12 +21,12 @@ class _HomeAppState extends State<HomeApp> {
 
   int volumeSelecionado = -1;
   int tamanhoListaVolumes = 0;
-  int itemSelecionado = 0;
+  int itemSelecionado = -1;
   List<ProdutoModel> produtosExibidos = [];
 
   final controller = HomeController();
   final controllerNavigationBar = NavigationController();
-
+  
   _error(){
     return Center(
       child: ElevatedButton(
@@ -49,6 +49,7 @@ class _HomeAppState extends State<HomeApp> {
 
   _sucess(){
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SizedBox(
           height: 80,
@@ -91,61 +92,75 @@ class _HomeAppState extends State<HomeApp> {
             }
           ),
         ),
-        const SizedBox(height: 16,),
+        const SizedBox(height: 20,),
+        const Padding(
+          padding: EdgeInsets.only(left: 16.0),
+          child: Text(
+            "Produtos disponíveis",
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          ),
+        ),
         Expanded(
           child: ListView.builder(
             itemCount: controller.produdos.length,
             itemBuilder: (BuildContext context, int index) {
-              /*
+              if(tamanhoListaVolumes == controller.volumes.length) tamanhoListaVolumes = 0;
+              if(tamanhoListaVolumes != 0) tamanhoListaVolumes++;
+
+              final produto = controller.produdos[index];
+
+              // Se não há um volume selecionado, exibir todos os itens
               if (volumeSelecionado == -1) {
-                // se nenhum volume foi selecionado, exibir todos os produtos
-                return ListTile(title: Text('${controller.produdos[index].nome} - ${controller.volumes.firstWhere((volume) => volume.id == controller.produdos[index].volumeId, orElse: () => VolumeModel(nome: "", id: -1)).nome} - ${controller.produdos[index].preco}'),);
+                VolumeModel volumeModel = controller.volumes.firstWhere(
+                  (volume) => volume.id == controller.produdos[index].volumeId, 
+                  orElse: () => VolumeModel(nome: "", id: -1)
+                );
+                return ListTile(
+                  title: Text(
+                    '${controller.produdos[index].nome} - ${volumeModel.nome} - ${controller.produdos[index].preco}'
+                  ),
+                );
               }
-              else {
-                if(controller.produdos[index].volumeId == volumeSelecionado + 1){
-                  return ListTile(title: Text('${controller.produdos[index].nome} - ${controller.volumes.firstWhere((volume) => volume.id == controller.produdos[index].volumeId, orElse: () => VolumeModel(nome: "", id: -1)).nome} - ${controller.produdos[index].preco}'),);
-                }
-                else {
-                  return Container();
-                }
-              }*/
-
-      if(tamanhoListaVolumes == controller.volumes.length) tamanhoListaVolumes = 0;
-      if(tamanhoListaVolumes != 0) tamanhoListaVolumes++;
-
-      final volume = controller.volumes[tamanhoListaVolumes];
-
-      // Se não há um volume selecionado, exibir todos os itens
-      if (volumeSelecionado == -1) {
-        VolumeModel volumeModel = controller.volumes.firstWhere((volume) => volume.id == controller.produdos[index].volumeId, orElse: () => VolumeModel(nome: "", id: -1));
-        return ListTile(
-          title: Text(
-            '${controller.produdos[index].nome} - ${volumeModel.nome} - ${controller.produdos[index].preco}'
-          ),
-        );
-      }
-
-      // Se há um volume selecionado, exibir apenas os itens com esse volume
-      if (controller.produdos[index].volumeId == volumeSelecionado + 1) {
-        VolumeModel volumeModel = controller.volumes.firstWhere((volume) => volume.id == controller.produdos[index].volumeId, orElse: () => VolumeModel(nome: "", id: -1));
-        return RadioListTile(
-          title: Text(
-            '${controller.produdos[index].nome} - ${volumeModel.nome} - ${controller.produdos[index].preco}',
-          ),
-          value: volumeModel.id!,
-          groupValue: itemSelecionado,
-          onChanged: (int? value) {
-            setState(() {
-              itemSelecionado = value!;
-            });
-          },
-        );
-      }
-
-      // Se não for para exibir o item, retornar um Container vazio
-      return Container();
-
-
+              // Se há um volume selecionado, exibir apenas os itens com esse volume
+              if (controller.produdos[index].volumeId == volumeSelecionado + 1) {
+                VolumeModel volumeModel = controller.volumes.firstWhere(
+                  (volume) => volume.id == controller.produdos[index].volumeId, 
+                  orElse: () => VolumeModel(nome: "", id: -1)
+                );
+                /*
+                VolumeModel volumeModel = controller.volumes.firstWhere(
+                  (volume) => volume.id == controller.produdos[index].volumeId,  SE OS PRODUTO FORAM COM O VOLUME ERRADO, OLHE AQUI
+                  orElse: () => VolumeModel(nome: "", id: -1)
+                );*/
+                return RadioListTile<int>(
+                    title: Text(
+                      //'${produto.nome} - ${volumeModel.nome} - ${produto.preco}', SE OS PRODUTO FORAM COM O VOLUME ERRADO, OLHE AQUI
+                      '${produto.nome} de ${volumeModel.nome}   R\$ ${produto.preco}',
+                      style: const TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w700
+                      ),
+                    ),
+                    subtitle: Text(
+                      '${produto.descricao}',
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500
+                      ),
+                    ),
+                    value: produto.id!,
+                    groupValue: itemSelecionado,
+                    onChanged: (int? value) {
+                      if (value == controller.produdos[index].id) {
+                        setState(() {
+                          itemSelecionado = value!;
+                        });
+                      }
+                    },
+                  );
+              }
+              // Se não for para exibir o item, retornar um Container vazio
+              return Container();
             },
           ),
         )
@@ -209,7 +224,7 @@ class _HomeAppState extends State<HomeApp> {
                       children: [
                         const HomeHeader(),
                         SizedBox(
-                          height: 450,
+                          height: 600,
                           child: AnimatedBuilder(
                             animation: controller.state,
                             builder: (context, child) => stateManager(controller.state.value),
@@ -218,7 +233,7 @@ class _HomeAppState extends State<HomeApp> {
                       ],
                     ),
                   ),
-                  const ProductList(),
+                  const Profile(),
                 ],
               );
             }
