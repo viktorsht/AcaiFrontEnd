@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../color/app_colors.dart';
+import 'app_colors.dart';
 
 class ButtonApp{
 

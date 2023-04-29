@@ -1,8 +1,7 @@
-import 'package:app/src/provider/format_phone.dart';
-import 'package:app/src/utils/color/app_colors.dart';
+import 'package:app/src/frame/app_buttons.dart';
+import 'package:app/src/frame/app_colors.dart';
 import 'package:flutter/material.dart';
 
-import '../../../utils/button/app_buttons.dart';
 import '../../controllers/controller_user.dart';
 
 class LoginApp extends StatefulWidget {
@@ -31,12 +30,12 @@ class _LoginAppState extends State<LoginApp> {
                 child: Image.asset('assets/home.png'),
               );
 
-    Future<String> entrar(String phone, String senha) async {
+    /*Future<String> entrar(String phone, String senha) async {
       Telefone telefone = Telefone();
       phone = telefone.formatarTelefone(phone);
       var login = await loginAppController.postLoginApp(phone, senha);
       return login.token;
-    }
+    }*/
 
     return Scaffold(
       backgroundColor: AppColors.secundaryColorApp,
@@ -127,7 +126,7 @@ class _LoginAppState extends State<LoginApp> {
                 )
               ),
               onPressed: () async {
-                String token = await entrar(_telefoneController.text, _senhaController.text);
+                //String token = await entrar(_telefoneController.text, _senhaController.text);
                 //Navigator.of(context).pushNamed('home');
                 //print(token);
               },

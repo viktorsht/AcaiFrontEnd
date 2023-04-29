@@ -1,4 +1,4 @@
-import 'package:app/src/infra/models/models_user.dart';
+import 'package:app/src/models/models_user.dart';
 
 class LoginAppModel{
   final Cliente cliente;

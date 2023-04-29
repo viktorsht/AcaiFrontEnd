@@ -1,12 +1,12 @@
 import 'dart:convert';
-import 'package:app/src/infra/api.dart';
+import 'package:app/src/api/api.dart';
+import 'package:app/src/models/models_login.dart';
 import 'package:http/http.dart' as http;
-import 'package:app/src/infra/models/models_login.dart';
 
 class LoginAppController{
 
   Future<LoginAppModel> postLoginApp(String telefone, String senha) async {
-    String apiUrl = "${DataApi.urlBaseApiAuth}token";
+    String apiUrl = "${Api.urlApi}token";
     final url = Uri.parse(apiUrl);
     final headers = {'Content-Type': 'application/json'};
     final body = jsonEncode({'telefone': telefone, 'senha': senha});
@@ -14,7 +14,6 @@ class LoginAppController{
     final response = await http.post(url, headers: headers, body: body);
 
     if (response.statusCode == 200) {
-      //print(response.body);
       final json = jsonDecode(response.body);
       login = LoginAppModel.fromJson(json);
     } else {

@@ -1,7 +1,7 @@
-import 'package:app/src/infra/views/home/home_page.dart';
-import 'package:app/src/infra/views/login/login.dart';
+import 'package:app/src/views/home/home_page.dart';
+import 'package:app/src/views/login/login.dart';
 import 'package:flutter/material.dart';
-import 'utils/theme/app_theme.dart';
+import 'frame/app_theme.dart';
 
 class App extends StatelessWidget {
   const App({super.key});
