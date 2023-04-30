@@ -1,5 +1,5 @@
 import 'package:app/src/frame/app_colors.dart';
-import 'package:app/src/views/home/components/controller_navigation.dart';
+import 'package:app/src/views/home/components/controllers/controller_navigation.dart';
 import 'package:flutter/material.dart';
 
 class HomeNavigationBar extends StatelessWidget {

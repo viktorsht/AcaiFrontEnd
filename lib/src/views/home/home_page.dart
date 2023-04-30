@@ -3,8 +3,10 @@ import 'package:app/src/frame/app_buttons.dart';
 import 'package:app/src/frame/app_colors.dart';
 import 'package:app/src/models/model_produto.dart';
 import 'package:app/src/models/model_volume.dart';
-import 'package:app/src/views/home/components/controller_navigation.dart';
+import 'package:app/src/views/home/components/controllers/controller_navigation.dart';
+import 'package:app/src/views/home/components/home_error.dart';
 import 'package:app/src/views/home/components/home_header.dart';
+import 'package:app/src/views/loading/loading.dart';
 import 'package:app/src/views/home/components/navigation_bar.dart';
 import 'package:app/src/views/profile.dart';
 import 'package:flutter/material.dart';
@@ -29,18 +31,24 @@ class _HomeAppState extends State<HomeApp> {
   
   _error(){
     return Center(
-      child: ElevatedButton(
-        style: ButtonApp.themeButtonAppSecundary,
-        onPressed: (){
-          controller.start();
-        },
-        child: const Text("Tentar Novamente"),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const HomeError(),
+          TextButton(
+            style: ButtonApp.themeButtonAppSecundary,
+            onPressed: (){
+              controller.start();
+            },
+            child: const Text("Tentar Novamente", style: TextStyle(color: AppColors.primaryColorApp),),
+          ),
+        ],
       ),
     );
   }
 
   _loading(){
-    return const Center(child: CircularProgressIndicator(),);
+    return const LoagindPage();
   }
 
   _start(){
@@ -117,8 +125,19 @@ class _HomeAppState extends State<HomeApp> {
                 );
                 return ListTile(
                   title: Text(
-                    '${controller.produdos[index].nome} - ${volumeModel.nome} - ${controller.produdos[index].preco}'
+                    '${controller.produdos[index].nome} de ${volumeModel.nome}   R\$ ${controller.produdos[index].preco}',
+                    style: const TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w700
+                    ),
                   ),
+                  subtitle: Text(
+                      '${controller.produdos[index].descricao}',
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500
+                      ),
+                    ),
                 );
               }
               // Se há um volume selecionado, exibir apenas os itens com esse volume
@@ -133,6 +152,7 @@ class _HomeAppState extends State<HomeApp> {
                   orElse: () => VolumeModel(nome: "", id: -1)
                 );*/
                 return RadioListTile<int>(
+                  activeColor: AppColors.secundaryColorApp,
                     title: Text(
                       //'${produto.nome} - ${volumeModel.nome} - ${produto.preco}', SE OS PRODUTO FORAM COM O VOLUME ERRADO, OLHE AQUI
                       '${produto.nome} de ${volumeModel.nome}   R\$ ${produto.preco}',

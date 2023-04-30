@@ -1,4 +1,4 @@
-import 'package:app/src/frame/app_colors.dart';
+import 'package:app/src/views/loading/loading.dart';
 import 'package:flutter/material.dart';
 
 class Profile extends StatelessWidget {
@@ -6,6 +6,8 @@ class Profile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(color: AppColors.primaryColorApp,);
+//    return const Center(child: CircularProgressIndicator(color: AppColors.secundaryColorApp,strokeWidth: 8,));
+    return const LoagindPage();
+
   }
 }
