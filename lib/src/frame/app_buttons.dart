@@ -21,6 +21,15 @@ class ButtonApp{
         borderRadius: BorderRadius.all(Radius.circular(15)),
       ),
     );
+  
+  static ButtonStyle themeButtonAppCart = ElevatedButton.styleFrom(
+      backgroundColor: AppColors.secundaryColorApp,
+      minimumSize: const Size(80, 50),
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(Radius.circular(15)),
+      ),
+      //padding: const EdgeInsets.symmetric(horizontal: 30),
+    );
 
   static ButtonStyle themeButtonSmall = ElevatedButton.styleFrom(
       backgroundColor: AppColors.secundaryColorApp,

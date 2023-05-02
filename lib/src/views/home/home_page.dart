@@ -4,6 +4,7 @@ import 'package:app/src/frame/app_colors.dart';
 import 'package:app/src/models/model_produto.dart';
 import 'package:app/src/models/model_volume.dart';
 import 'package:app/src/views/home/components/controllers/controller_navigation.dart';
+import 'package:app/src/views/home/components/controllers/controller_produto_selecionado.dart';
 import 'package:app/src/views/home/components/home_error.dart';
 import 'package:app/src/views/home/components/home_header.dart';
 import 'package:app/src/views/loading/loading.dart';
@@ -28,6 +29,7 @@ class _HomeAppState extends State<HomeApp> {
 
   final controller = HomeController();
   final controllerNavigationBar = NavigationController();
+  //final controllerProduto = ProdutoSelecionadoController();
   
   _error(){
     return Center(
@@ -203,6 +205,25 @@ class _HomeAppState extends State<HomeApp> {
     }
   }
 
+  buttonCartColor(int value){
+    if (value != -1) {
+      return ElevatedButton(
+        style: ButtonApp.themeButtonAppCart, 
+        onPressed: (){}, 
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+            children: const [
+              Icon(Icons.shopping_cart),
+              SizedBox(width: 8),
+              Text('Adicionar ao carrinho'),
+            ],
+          ),
+        );
+    } else {
+      return Container();
+    }
+  }
+
   @override
   void initState() {
     super.initState();
@@ -244,12 +265,13 @@ class _HomeAppState extends State<HomeApp> {
                       children: [
                         const HomeHeader(),
                         SizedBox(
-                          height: 600,
+                          height: itemSelecionado != -1 ? 450 : 500,
                           child: AnimatedBuilder(
                             animation: controller.state,
                             builder: (context, child) => stateManager(controller.state.value),
                           ),
                         ),
+                        buttonCartColor(itemSelecionado)
                       ],
                     ),
                   ),
