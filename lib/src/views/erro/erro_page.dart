@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class HomeError extends StatelessWidget {
-  const HomeError({super.key});
+class ErroPage extends StatelessWidget {
+  const ErroPage({super.key});
 
   @override
   Widget build(BuildContext context) {

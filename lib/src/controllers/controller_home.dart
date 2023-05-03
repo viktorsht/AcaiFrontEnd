@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 
 class HomeController{
   List<VolumeModel> volumes = [];
-  List<ProdutoModel> produdos = [];
+  List<ProdutoModel> produtos = [];
   final _repositoryVolume = VolumeRepository();
   final _repositoryProduto = ProdutoRepository();
   final state = ValueNotifier <HomeState>(HomeState.start);
@@ -15,7 +15,7 @@ class HomeController{
     state.value = HomeState.loading;
     try {
       volumes = await _repositoryVolume.getVolumeApi();
-      produdos = await _repositoryProduto.getProdutosApi();
+      produtos = await _repositoryProduto.getProdutosApi();
       state.value = HomeState.sucess;
     } catch (e) {
       state.value = HomeState.error;

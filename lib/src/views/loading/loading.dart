@@ -17,7 +17,7 @@ class LoagindPage extends StatelessWidget {
           ),
           SizedBox(height: 20),
           Text(
-            "Carregando..",
+            "Carregando...",
             style: TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.bold,

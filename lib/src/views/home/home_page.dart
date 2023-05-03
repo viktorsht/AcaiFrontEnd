@@ -4,13 +4,13 @@ import 'package:app/src/frame/app_colors.dart';
 import 'package:app/src/models/model_produto.dart';
 import 'package:app/src/models/model_volume.dart';
 import 'package:app/src/views/home/components/controllers/controller_navigation.dart';
-import 'package:app/src/views/home/components/controllers/controller_produto_selecionado.dart';
-import 'package:app/src/views/home/components/home_error.dart';
 import 'package:app/src/views/home/components/home_header.dart';
 import 'package:app/src/views/loading/loading.dart';
 import 'package:app/src/views/home/components/navigation_bar.dart';
 import 'package:app/src/views/profile.dart';
 import 'package:flutter/material.dart';
+
+import '../erro/erro_page.dart';
 
 
 class HomeApp extends StatefulWidget {
@@ -36,7 +36,7 @@ class _HomeAppState extends State<HomeApp> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const HomeError(),
+          const ErroPage(),
           TextButton(
             style: ButtonApp.themeButtonAppSecundary,
             onPressed: (){
@@ -112,29 +112,29 @@ class _HomeAppState extends State<HomeApp> {
         ),
         Expanded(
           child: ListView.builder(
-            itemCount: controller.produdos.length,
+            itemCount: controller.produtos.length,
             itemBuilder: (BuildContext context, int index) {
               if(tamanhoListaVolumes == controller.volumes.length) tamanhoListaVolumes = 0;
               if(tamanhoListaVolumes != 0) tamanhoListaVolumes++;
 
-              final produto = controller.produdos[index];
+              final produto = controller.produtos[index];
 
               // Se não há um volume selecionado, exibir todos os itens
               if (volumeSelecionado == -1) {
                 VolumeModel volumeModel = controller.volumes.firstWhere(
-                  (volume) => volume.id == controller.produdos[index].volumeId, 
+                  (volume) => volume.id == controller.produtos[index].volumeId, 
                   orElse: () => VolumeModel(nome: "", id: -1)
                 );
                 return ListTile(
                   title: Text(
-                    '${controller.produdos[index].nome} de ${volumeModel.nome}   R\$ ${controller.produdos[index].preco}',
+                    '${controller.produtos[index].nome} de ${volumeModel.nome}   R\$ ${controller.produtos[index].preco}',
                     style: const TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.w700
                     ),
                   ),
                   subtitle: Text(
-                      '${controller.produdos[index].descricao}',
+                      '${controller.produtos[index].descricao}',
                       style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w500
@@ -143,14 +143,14 @@ class _HomeAppState extends State<HomeApp> {
                 );
               }
               // Se há um volume selecionado, exibir apenas os itens com esse volume
-              if (controller.produdos[index].volumeId == volumeSelecionado + 1) {
+              if (controller.produtos[index].volumeId == volumeSelecionado + 1) {
                 VolumeModel volumeModel = controller.volumes.firstWhere(
-                  (volume) => volume.id == controller.produdos[index].volumeId, 
+                  (volume) => volume.id == controller.produtos[index].volumeId, 
                   orElse: () => VolumeModel(nome: "", id: -1)
                 );
                 /*
                 VolumeModel volumeModel = controller.volumes.firstWhere(
-                  (volume) => volume.id == controller.produdos[index].volumeId,  SE OS PRODUTO FORAM COM O VOLUME ERRADO, OLHE AQUI
+                  (volume) => volume.id == controller.produtos[index].volumeId,  SE OS PRODUTO FORAM COM O VOLUME ERRADO, OLHE AQUI
                   orElse: () => VolumeModel(nome: "", id: -1)
                 );*/
                 return RadioListTile<int>(
@@ -173,7 +173,7 @@ class _HomeAppState extends State<HomeApp> {
                     value: produto.id!,
                     groupValue: itemSelecionado,
                     onChanged: (int? value) {
-                      if (value == controller.produdos[index].id) {
+                      if (value == controller.produtos[index].id) {
                         setState(() {
                           itemSelecionado = value!;
                         });
